@@ -396,26 +396,46 @@ class voronoi
             list($vi,$vj,$vk)=array($v[$vkey][0],$v[$vkey][1],$v[$vkey][2]);
             $c=$this->CircumCircle($x[$vi],$y[$vi],$x[$vj],$y[$vj],$x[$vk],$y[$vk]);
    
-            $d1=abs(pow(($c->x-$x[$vi]),2)+pow(($c->y-$y[$vi]),2)-$c->r2-pow($this->weights[$vi],2));  
+            $d1=abs(pow(($c->x-$x[$vi]),2)+pow(($c->y-$y[$vi]),2)-$c->r2+pow($this->weights[$vi],2));  
             $r1=sqrt($d1);
-            $p1=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r1;
+            $p1=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2+pow($this->weights[$key],2)+$r1;
             
-            $d2=abs(pow(($c->x-$x[$vj]),2)+pow(($c->y-$y[$vj]),2)-$c->r2-pow($this->weights[$key],2));  
+            $d2=abs(pow(($c->x-$x[$vj]),2)+pow(($c->y-$y[$vj]),2)-$c->r2+pow($this->weights[$key],2));  
             $r2=sqrt($d2);
-            $p2=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r2;
+            $p2=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2+pow($this->weights[$key],2)+$r2;
          
-            $d3=abs(pow(($c->x-$x[$vk]),2)+pow(($c->y-$y[$vk]),2)-$c->r2-pow($this->weights[$key],2));
+            $d3=abs(pow(($c->x-$x[$vk]),2)+pow(($c->y-$y[$vk]),2)-$c->r2+pow($this->weights[$key],2));
             $r3=sqrt($d3);
-            $p3=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r3;
+            $p3=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2+pow($this->weights[$key],2)+$r3;
                     
             //if ($c->r > EPSILON && $inside)
             if ($p1<0 && $p2<0 && $p3<0)
             {    
+ /*               $x[$vi]+=$p1;
+                $y[$vi]+=$p1;
+
+                $x[$vj]+=$p2;
+                $y[$vj]+=$p2;
+
+                $x[$vk]+=$p3;
+                $y[$vk]+=$p3;
+ */ 
                 $edges[]=array($vi,$vj);
                 $edges[]=array($vj,$vk);
                 $edges[]=array($vk,$vi); 
                 unset($v[$vkey]);
                 //unset($complete[$vkey]);
+                
+            } else 
+            {
+                $x[$vi]+=$d1;
+                $y[$vi]+=$d1;
+
+                $x[$vj]+=$d2;
+                $y[$vj]+=$d2;
+
+                $x[$vk]+=$d3;
+                $y[$vk]+=$d3;                
             }
          }
          
@@ -711,7 +731,7 @@ class voronoi
                 } 
              }
         } 
-    
+
         $deleted=array();
         foreach ($this->delaunay as $key => $arr)
         {     
@@ -904,7 +924,8 @@ class voronoi
         $this->weights[]=100;
         $this->weights[]=100;
 
-        $result=$this->getEdges(count($set), $x, $y);  
+        $result=$this->getEdges(count($set), $x, $y); 
+        
    }   
    
    function make_voronoi () 
