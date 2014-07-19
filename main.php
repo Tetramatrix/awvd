@@ -87,8 +87,8 @@ class visualize
          foreach ($arr as $ikey => $iarr)
          {
             list($x1,$y1,$x2,$y2) = $iarr;
-            //imageline($im,$x1+5,$y1+5,$x2+5,$y2+5,$gray_dark);
-            //imagefilledellipse($im, $x1, $y1, 4, 4, $darkorange);
+           // imageline($im,$x1+5,$y1+5,$x2+5,$y2+5,$gray_lite);
+            imagefilledellipse($im, $x1, $y1, 4, 4, $red);
          }
       } 
      
@@ -400,43 +400,37 @@ class voronoi
             $r1=sqrt($d1);
             $p1=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r1;
             
-            $d2=abs(pow(($c->x-$x[$vj]),2)+pow(($c->y-$y[$vj]),2)-$c->r2-pow($this->weights[$key],2));  
+            $d2=abs(pow(($c->x-$x[$vj]),2)+pow(($c->y-$y[$vj]),2)-$c->r2-pow($this->weights[$vj],2));  
             $r2=sqrt($d2);
             $p2=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r2;
          
-            $d3=abs(pow(($c->x-$x[$vk]),2)+pow(($c->y-$y[$vk]),2)-$c->r2-pow($this->weights[$key],2));
+            $d3=abs(pow(($c->x-$x[$vk]),2)+pow(($c->y-$y[$vk]),2)-$c->r2-pow($this->weights[$vk],2));
             $r3=sqrt($d3);
             $p3=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r3;
                     
             //if ($c->r > EPSILON && $inside)
             if ($p1<0 && $p2<0 && $p3<0)
             {    
- /*               $x[$vi]+=$p1;
-                $y[$vi]+=$p1;
+  /*              $x[$vi]+=$this->weights[$vi];
+                $y[$vi]+=$this->weights[$vi];
 
-                $x[$vj]+=$p2;
-                $y[$vj]+=$p2;
+                $x[$vj]+=$this->weights[$vj];
+                $y[$vj]+=$this->weights[$vj];
 
-                $x[$vk]+=$p3;
-                $y[$vk]+=$p3;
+                $x[$vk]+=$this->weights[$vk];
+                $y[$vk]+=$this->weights[$vk];
  */
+//                $x[$key]+=$this;
+//                $y[$key]+=$this->weights[$key];
+
+//                $this->weights[$key]-=$this->weights[$key];
+
                 $edges[]=array($vi,$vj);
                 $edges[]=array($vj,$vk);
                 $edges[]=array($vk,$vi); 
                 unset($v[$vkey]);
-                //unset($complete[$vkey]);
-                
-            } else 
-            {
-/*                $x[$vi]+=$r1;
-                $y[$vi]+=$r1;
-
-                $x[$vj]+=$r2;
-                $y[$vj]+=$r2;
-
-                $x[$vk]+=$r3;
-                $y[$vk]+=$r3;                
-  */          }
+                //unset($complete[$vkey]);   
+            }
          }
          
          /*
@@ -661,7 +655,6 @@ class voronoi
         $this->weights = array();
         $this->convexhull = array();
         $this->convexpoints = array();
-
         $w=$x=$y=$sortX = array();
 
         foreach($input as $key => $arr)
@@ -675,9 +668,9 @@ class voronoi
             list($x[],$y[],$this->weights[]) = array($arr[0],$arr[1],$arr[2]);
         }
 
-        $this->weights[]=100;
-        $this->weights[]=100;
-        $this->weights[]=100;
+        $this->weights[]=0;
+        $this->weights[]=0;
+        $this->weights[]=0;
 
         $result=$this->getEdges(count($input), $x, $y);
 
@@ -731,7 +724,7 @@ class voronoi
                 } 
              }
         } 
-
+        
         $deleted=array();
         foreach ($this->delaunay as $key => $arr)
         {     
@@ -823,109 +816,119 @@ class voronoi
             list($x[],$y[],$this->weights[]) = array($arr[0],$arr[1],$arr[2]);
         }
 
-        $this->weights[]=100;
-        $this->weights[]=100;
-        $this->weights[]=100;
-
+        $this->weights[]=0;
+        $this->weights[]=0;
+        $this->weights[]=0;
+        
         $result=$this->getEdges(count($set), $x, $y);  
-   
-        $deleted=array();
-        foreach ($this->delaunay as $key => $arr)
-        {     
-            foreach ($this->delaunay as $ikey => $iarr)
-            {  
-               if ( $key!=$ikey && !$this->convexhull[$key] &&
-                    ($arr[0][0]!=$iarr[0][0] && $arr[0][1]!=$iarr[0][1]) &&
-                    ($arr[0][0]!=$iarr[0][2] && $arr[0][1]!=$iarr[0][3]) && 
-                    ($arr[0][0]!=$iarr[1][2] && $arr[0][1]!=$iarr[1][3]) && 
-                                  
-                    ($arr[1][0]!=$iarr[0][0] && $arr[1][1]!=$iarr[0][1]) && 
-                    ($arr[1][0]!=$iarr[0][2] && $arr[1][1]!=$iarr[0][3]) && 
-                    ($arr[1][0]!=$iarr[1][2] && $arr[1][1]!=$iarr[1][3]) && 
-                                                 
-                    ($arr[2][0]!=$iarr[0][0] && $arr[2][1]!=$iarr[0][1]) && 
-                    ($arr[2][0]!=$iarr[0][2] && $arr[2][1]!=$iarr[0][3]) && 
-                    ($arr[2][0]!=$iarr[1][2] && $arr[2][1]!=$iarr[1][3])                          
-                  ) 
-               { 
-                   $points=array();
-                   $points[]=new Point($iarr[0][0],$iarr[0][1]);
-                   $points[]=new Point($iarr[0][2],$iarr[0][3]);
-                   $points[]=new Point($iarr[1][2],$iarr[1][3]);
-                   
-                   $tt=$this->insidePoly($points,$arr[0][0],$arr[0][1]);
-                   if ($tt)
-                   {
-                       unset($this->delaunay[$key]);
-                       unset($this->indices[$key]);
-                       $deleted[]=$key;
-                       break;
-                   }    
-                   $tt=$this->insidePoly($points,$arr[1][0],$arr[1][1]);
-                   if ($tt)
-                   {
-                       unset($this->delaunay[$key]);
-                       unset($this->indices[$key]);
-                       $deleted[]=$key;
-                       break;
-                   }     
-                   $tt=$this->insidePoly($points,$arr[2][0],$arr[2][1]);
-                   if ($tt)
-                   {
-                       unset($this->delaunay[$key]);
-                       unset($this->indices[$key]);
-                       $deleted[]=$key;
-                       break;
-                   }                 
-                }                    
-            }
-        }
         
-        $set=$this->pointset;
-        foreach ($set as $key=>$arr) 
+        $old=array();
+        $loop=0;
+        if ($lvl==0) 
         {
-            $tabu=false;
-            foreach ($this->indices as $ikey=>$iarr) 
-            {
-                foreach ($iarr as $iikey=>$iiarr) 
-                {                
-                    if ($key==$iiarr) 
-                    {
-                        $tabu=true;
-                        break;
+            do {
+                if (count($set)<3) break;
+                $old[count($set)]=true;
+                $deleted=array();
+                foreach ($this->delaunay as $key => $arr)
+                {     
+                    foreach ($this->delaunay as $ikey => $iarr)
+                    {  
+                       if ( $key!=$ikey && !$this->convexhull[$key] &&
+                            ($arr[0][0]!=$iarr[0][0] && $arr[0][1]!=$iarr[0][1]) &&
+                            ($arr[0][0]!=$iarr[0][2] && $arr[0][1]!=$iarr[0][3]) && 
+                            ($arr[0][0]!=$iarr[1][2] && $arr[0][1]!=$iarr[1][3]) && 
+                                          
+                            ($arr[1][0]!=$iarr[0][0] && $arr[1][1]!=$iarr[0][1]) && 
+                            ($arr[1][0]!=$iarr[0][2] && $arr[1][1]!=$iarr[0][3]) && 
+                            ($arr[1][0]!=$iarr[1][2] && $arr[1][1]!=$iarr[1][3]) && 
+                                                         
+                            ($arr[2][0]!=$iarr[0][0] && $arr[2][1]!=$iarr[0][1]) && 
+                            ($arr[2][0]!=$iarr[0][2] && $arr[2][1]!=$iarr[0][3]) && 
+                            ($arr[2][0]!=$iarr[1][2] && $arr[2][1]!=$iarr[1][3])                          
+                          ) 
+                       { 
+                           $points=array();
+                           $points[]=new Point($iarr[0][0],$iarr[0][1]);
+                           $points[]=new Point($iarr[0][2],$iarr[0][3]);
+                           $points[]=new Point($iarr[1][2],$iarr[1][3]);
+                           
+                           $tt=$this->insidePoly($points,$arr[0][0],$arr[0][1]);
+                           if ($tt)
+                           {
+                               unset($this->delaunay[$key]);
+                               unset($this->indices[$key]);
+                               $deleted[]=$key;
+                               break;
+                           }    
+                           $tt=$this->insidePoly($points,$arr[1][0],$arr[1][1]);
+                           if ($tt)
+                           {
+                               unset($this->delaunay[$key]);
+                               unset($this->indices[$key]);
+                               $deleted[]=$key;
+                               break;
+                           }     
+                           $tt=$this->insidePoly($points,$arr[2][0],$arr[2][1]);
+                           if ($tt)
+                           {
+                               unset($this->delaunay[$key]);
+                               unset($this->indices[$key]);
+                               $deleted[]=$key;
+                               break;
+                           }                 
+                        }                    
                     }
                 }
-                if ($tabu) break;
-            }
-            if (!$tabu) 
-            {
-                unset($set[$key]);
-            }
+                
+                $set=$this->pointset;
+                foreach ($set as $key=>$arr) 
+                {
+                    $tabu=false;
+                    foreach ($this->indices as $ikey=>$iarr) 
+                    {
+                        foreach ($iarr as $iikey=>$iiarr) 
+                        {                
+                            if ($key==$iiarr) 
+                            {
+                                $tabu=true;
+                                break;
+                            }
+                        }
+                        if ($tabu) break;
+                    }
+                    if (!$tabu) 
+                    {
+                        unset($set[$key]);
+                    }
+                }
+                $set=array_values($set);
+
+                $this->delaunay = array();
+                $this->indices = array();
+                $this->weights = array();
+                $w=$x=$y=$sortX = array();
+
+                foreach($set as $key => $arr)
+                {
+                    $sortX[$key] = $arr[0];
+                } 
+                array_multisort($sortX, SORT_ASC, SORT_NUMERIC, $set);
+                 
+                foreach ($set as $key => $arr)
+                {
+                    list($x[],$y[],$this->weights[]) = array($arr[0],$arr[1],$arr[2]);
+                }
+
+                $this->weights[]=0;
+                $this->weights[]=0;
+                $this->weights[]=0;
+                
+                $result=$this->getEdges(count($set), $x, $y);  
+                $loop++;
+                
+            } while ($loop<20);
         }
-        $set=array_values($set);
-
-        $this->delaunay = array();
-        $this->indices = array();
-        $this->weights = array();
-        $w=$x=$y=$sortX = array();
-
-        foreach($set as $key => $arr)
-        {
-            $sortX[$key] = $arr[0];
-        } 
-        array_multisort($sortX, SORT_ASC, SORT_NUMERIC, $set);
-         
-        foreach ($set as $key => $arr)
-        {
-            list($x[],$y[],$this->weights[]) = array($arr[0],$arr[1],$arr[2]);
-        }
-
-        $this->weights[]=100;
-        $this->weights[]=100;
-        $this->weights[]=100;
-
-        $result=$this->getEdges(count($set), $x, $y); 
-        
    }   
    
    function make_voronoi () 
@@ -1067,7 +1070,7 @@ class voronoi
       {         
          for ($i=0; $i<15; $i++) 
          {
-            list($x,$y,$w)=array(rand(1,$this->stageWidth),(float)rand(1,$this->stageHeight),(float)rand(1,10));
+            list($x,$y,$w)=array(rand(1,$this->stageWidth),(float)rand(1,$this->stageHeight),(float)rand(10,100));
             $this->pointset[]=array($x,$y,$w);
          }
       } else
