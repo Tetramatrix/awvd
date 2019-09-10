@@ -66,8 +66,17 @@ on "2004.03.28T15:41-0800" r (P 0 S 0 V 0 Com 0 Tol -1 Env -1 SF 0 Edu -2 Can 0 
             'ProductCount': 3,
         };
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
+<script>
+$(document).ready(function(){
+	 $.get("https://cors-anywhere.herokuapp.com/https://tetramatrix.github.io/awvd/liste.html",function(data) {
+ 			 //console.log(data)
+  		$("#others").html(data);
+  	})
+});	
+</script>
 <script type="text/javascript" src="http://view.binlayer.com/view-67916.js"></script>
 <div class="left">
 <p>
@@ -99,7 +108,7 @@ on "2004.03.28T15:41-0800" r (P 0 S 0 V 0 Com 0 Tol -1 Env -1 SF 0 Edu -2 Can 0 
 <p>Download:
 <ul><li><!--<a href="http://fas.li/vKuOV">Download</a>, <a href="http://adf.ly/1mwrly">mirror 1</a>//--><a href="https://github.com/Tetramatrix/awvd/">Sourcecode</a></li></ul>
 </p>
-
+<p id="others"></p>
 </div><!-- google_ad_section_end -->
 <div class="right">
 <p>
