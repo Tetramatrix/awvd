@@ -1,84 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>:: Chi Hoang ::</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="description" content="TChi Hoang.">
-<meta name="abstract" content="Chi Hoang.">
-<meta name="keywords" content="Chi Hoang">
-<meta name="keywords" lang="de" content="Chi Hoang">
-<meta name="keywords" lang="en-us" content="Chi Hoang">
-<meta name="keywords" lang="en" content="Chi Hoang">
-<meta name="keywords" lang="fr" content="Chi Hoang">
-<meta name="keyphrases" content="Chi Hoang">
-<meta name="author" content="Chi Hoang">
-<meta name="copyright" content="Chi Hoang">
-<meta name="publisher" Content="Chi Hoang">
-<meta name="rating" content="Technology">
-
-<meta name="Kategorie" content="Technology">
-<meta name="category" content="Technology">
-<meta name="page-topic" Content="Technology">
-<meta name="page-type" Content="Technology">
-<meta name="audience" Content="all">
-
-<meta http-equiv="content-language" content="en">
-<meta name="Language" content="English, en">
-<meta name="Security" content="public">
-<meta name="Owner" content="Chi Hoang">
-<meta name="made" content="rebrobates@gmail.com">
-<META HTTP-EQUIV="Expires" CONTENT="-1">
-
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="pragma" content="no-cache">
-<meta name="revisit-after" content="7 days">
-<meta http-equiv="imagetoolbar" CONTENT="no">
-<meta name="MSSmartTagsPreventParsing" content="TRUE">
-
-<meta name="date" content="2017-04-21">
-<meta name="robots" content="follow, index">
-<meta name="googlebot" content="follow, index">
-<link rev="made" href="mailto:rebrobates@gmail.com">
-
-<META http-equiv="PICS-Label" content='(PICS-1.1
-"http://vancouver-webpages.com/VWP1.0/" l gen true comment "VWP1.0"
-on "2004.03.28T15:41-0800" r (P 0 S 0 V 0 Com 0 Tol -1 Env -1 SF 0 Edu -2 Can 0 MC -1 Gam -1 ))'>
-
-<meta name="referrer" content="no-referrer" />
-<meta name="referrer" content="unsafe-url" />
-<meta name="referrer" content="origin" />
-<meta name="referrer" content="no-referrer-when-downgrade" />
-<meta name="referrer" content="origin-when-cross-origin" />
-
- <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> //-->
-<link rel="stylesheet" type="text/css" href="main.css">
-  </head>
-<body>
-
 <p>Others:
-	<ul><li><a href="https://tetramatrix.github.io/maxmediamasonry/">maxmediamasonry</a></li><li>
+<ul>
+<li><a href="https://tetramatrix.github.io/maxmediamasonry/">maxmediamasonry</a></li><li>
 <a href="https://tetramatrix.github.io/awvd/">awvd</a></li><li>
-		<a href="https://tetramatrix.github.io/megacpu/">megacpu</a></li><li>
-			<a href="https://tetramatrix.github.io/fractalgenerator/">fractalgenerator</a></li><li>
-				<a href="https://tetramatrix.github.io/IP2Location-Lite-Web-Viewer/">IP2Location-Lite-Web-Viewer</a></li><li>
-					<a href="https://tetramatrix.github.io/rssreader/">rssreader</a></li><li>
-						<a href="https://tetramatrix.github.io/bash-regexp/">bash-regexp</a></li><li>
-							<a href="https://tetramatrix.github.io/game-db/">game-db</a></li><li>
-								<a href="https://tetramatrix.github.io/pubsub/">pubsub</a></li><li>
-									<a href="https://tetramatrix.github.io/dotsgame/">dotsgame</a></li><li>
-										<a href="https://tetramatrix.github.io/fastpm/">fastpm</a></li><li>
-											<a href="https://tetramatrix.github.io/energytools/">energytools</a></li><li>
-												<a href="https://tetramatrix.github.io/karttrie/">karttrie</a></li><li>
-													<a href="https://tetramatrix.github.io/javavmoptions/">javavmoptions</a></li><li>
-														<a href="https://tetramatrix.github.io/tuneup/">tuneup</a></li><li>
-															<a href="https://tetramatrix.github.io/knearestneighbor/">knearestneighbor</a></li><li>
-																<a href="https://tetramatrix.github.io/hexagram/">I-Ching/I-Ging</a></li><li>
-																	<a href="https://tetramatrix.github.io/eulercircuit/">eulercircuit</a></li><li>
-																		<a href="https://tetramatrix.github.io/dotsgamechrome/">dotsgamechrome</a></li><li>
-																			<a href="https://tetramatrix.github.io/christofidesheuristic/">christofidesheuristic</a></li><li>
-																				<a href="https://tetramatrix.github.io/Faster-PHP-IP2Location/">Faster-PHP-IP2Location</a></li><li>
-																					<a href="https://tetramatrix.github.io/Mass-Downloader/">Mass-Downloader</a></li><li>
-																						<a href="https://tetramatrix.github.io/Better-PHP-License-Manager-System/">Better-PHP-License-Manager-System</a></li><li>
+<a href="https://tetramatrix.github.io/megacpu/">megacpu</a></li><li>
+<a href="https://tetramatrix.github.io/fractalgenerator/">fractalgenerator</a></li><li>
+<a href="https://tetramatrix.github.io/IP2Location-Lite-Web-Viewer/">IP2Location-Lite-Web-Viewer</a></li><li>
+<a href="https://tetramatrix.github.io/rssreader/">rssreader</a></li><li>
+<a href="https://tetramatrix.github.io/bash-regexp/">bash-regexp</a></li><li>
+<a href="https://tetramatrix.github.io/game-db/">game-db</a></li><li>
+<a href="https://tetramatrix.github.io/pubsub/">pubsub</a></li><li>
+<a href="https://tetramatrix.github.io/dotsgame/">dotsgame</a></li><li>
+<a href="https://tetramatrix.github.io/fastpm/">fastpm</a></li><li>
+<a href="https://tetramatrix.github.io/energytools/">energytools</a></li><li>
+<a href="https://tetramatrix.github.io/karttrie/">karttrie</a></li><li>
+<a href="https://tetramatrix.github.io/javavmoptions/">javavmoptions</a></li><li>
+<a href="https://tetramatrix.github.io/tuneup/">tuneup</a></li><li>
+<a href="https://tetramatrix.github.io/knearestneighbor/">knearestneighbor</a></li><li>
+<a href="https://tetramatrix.github.io/hexagram/">I-Ching/I-Ging</a></li><li>
+<a href="https://tetramatrix.github.io/eulercircuit/">eulercircuit</a></li><li>
+<a href="https://tetramatrix.github.io/dotsgamechrome/">dotsgamechrome</a></li><li>
+<a href="https://tetramatrix.github.io/christofidesheuristic/">christofidesheuristic</a></li><li>
+<a href="https://tetramatrix.github.io/Faster-PHP-IP2Location/">Faster-PHP-IP2Location</a></li><li>
+<a href="https://tetramatrix.github.io/Mass-Downloader/">Mass-Downloader</a></li><li>
+<a href="https://tetramatrix.github.io/Better-PHP-License-Manager-System/">Better-PHP-License-Manager-System</a></li><li>
 <a href="https://tetramatrix.github.io/proxydigger/">proxydigger</a></li><li>
 <a href="https://tetramatrix.github.io/doxmyipwindowstool/">doxmyipwindowstool</a></li><li>
 <a href="https://tetramatrix.github.io/geofence/">geofence</a></li><li>
@@ -93,6 +37,7 @@ on "2004.03.28T15:41-0800" r (P 0 S 0 V 0 Com 0 Tol -1 Env -1 SF 0 Edu -2 Can 0 
 <a href="https://tetramatrix.github.io/triangulation/">triangulation</a></li><li>
 <a href="https://tetramatrix.github.io/cntm/">cntm</a></li><li>
 <a href="https://tetramatrix.github.io/typo3storelocator/">typo3storelocator</a></li><li>
+<a href="https://tetramatrix.github.io/typo3dreid/">typo3dreid</a></li><li>
 <a href="https://tetramatrix.github.io/voronoi/">voronoi</a></li><li>
 <a href="https://tetramatrix.github.io/ip2locationphp/">ip2locationphp</a></li><li>
 <a href="https://tetramatrix.github.io/alphashape/">alphashape</a></li><li>
@@ -100,6 +45,6 @@ on "2004.03.28T15:41-0800" r (P 0 S 0 V 0 Com 0 Tol -1 Env -1 SF 0 Edu -2 Can 0 
 <a href="https://tetramatrix.github.io/wag200gfirmware/">wag200gfirmware</a></li><li>
 <a href="https://tetramatrix.github.io/finetune/">finetune</a></li><li>
 <a href="https://tetramatrix.github.io/torrc/">torrc</a></li><li>
-<a href="https://tetramatrix.github.io/typo3dreid/">typo3dreid</a></li></ul>	
-	</p>
-</body>
+<a href="https://tetramatrix.github.io/typo3dreid/">typo3dreid</a></li>
+	</ul>	
+</p>
