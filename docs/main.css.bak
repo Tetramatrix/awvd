@@ -44,3 +44,9 @@ h3 {
 	float:left;
 	width:700px;
 }
+
+.fixed-nav {
+  position: fixed;
+  top:0;
+  z-index: 10;
+}
