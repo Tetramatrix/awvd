@@ -338,6 +338,58 @@ class voronoi
        return new Circle($xc, $yc, $r, $rsqr, $colinear);    
    }
 
+   function PowerCircumCircle($x1,$y1,$w1_sq,$x2,$y2,$w2_sq,$x3,$y3,$w3_sq)
+   {
+      // Calculate Power Circumcenter (xc, yc) and Squared Power Radius (R_p_sq)
+      // Uses squared weights (w_i^2)
+
+      // Equations for radical axes:
+      // 2x(x2-x1) + 2y(y2-y1) = (x2^2 + y2^2 - w2_sq) - (x1^2 + y1^2 - w1_sq)
+      // 2x(x3-x2) + 2y(y3-y2) = (x3^2 + y3^2 - w3_sq) - (x2^2 + y2^2 - w2_sq)
+
+      $A1 = 2 * ($x2 - $x1);
+      $B1 = 2 * ($y2 - $y1);
+      $C1_val = ($x2*$x2 + $y2*$y2 - $w2_sq) - ($x1*$x1 + $y1*$y1 - $w1_sq);
+
+      $A2 = 2 * ($x3 - $x2);
+      $B2 = 2 * ($y3 - $y2);
+      $C2_val = ($x3*$x3 + $y3*$y3 - $w3_sq) - ($x2*$x2 + $y2*$y2 - $w2_sq);
+
+      $D = $A1 * $B2 - $A2 * $B1;
+
+      $xc = 0.0; $yc = 0.0; $R_p_sq = 0.0; $colinear = false;
+
+      if (abs($D) < EPSILON) {
+         // Points are collinear or nearly collinear
+         // Power circumcenter is undefined or at infinity.
+         // This case should ideally be handled by not forming triangles from collinear points.
+         $colinear = true;
+         // For safety, return a circle that's unlikely to contain points
+         // or ensure calling code checks $colinear.
+         // Standard circumcircle handles this by specific axis-aligned cases,
+         // but for power diagrams, collinearity is more problematic for a unique center.
+         // We'll return a point at origin with a large negative radius squared.
+         return new Circle(0,0,0, -SUPER_TRIANGLE, true);
+      } else {
+         $xc = ($C1_val * $B2 - $C2_val * $B1) / $D;
+         $yc = ($A1 * $C2_val - $A2 * $C1_val) / $D;
+
+         $dx_p = $xc - $x1;
+         $dy_p = $yc - $y1;
+         $R_p_sq = $dx_p*$dx_p + $dy_p*$dy_p - $w1_sq;
+      }
+      
+      // $r can be sqrt($R_p_sq) if $R_p_sq is non-negative, otherwise it's not a real radius.
+      // The Circle class stores r and r2. We'll store R_p_sq in r2.
+      $r_val = 0.0;
+      if ($R_p_sq >= 0) {
+          $r_val = sqrt($R_p_sq);
+      }
+
+      return new Circle($xc, $yc, $r_val, $R_p_sq, $colinear);
+   }
+
+
    function inside(Circle $c, $x, $y)
    {
       $dx = $x - $c->x;
@@ -394,37 +446,28 @@ class voronoi
          {  
             //if ($complete[$vkey]) continue;
             list($vi,$vj,$vk)=array($v[$vkey][0],$v[$vkey][1],$v[$vkey][2]);
-            $c=$this->CircumCircle($x[$vi],$y[$vi],$x[$vj],$y[$vj],$x[$vk],$y[$vk]);
-   
-            $d1=abs(pow(($c->x-$x[$vi]),2)+pow(($c->y-$y[$vi]),2)-$c->r2-pow($this->weights[$vi],2));  
-            $r1=sqrt($d1);
-            $p1=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r1;
             
-            $d2=abs(pow(($c->x-$x[$vj]),2)+pow(($c->y-$y[$vj]),2)-$c->r2-pow($this->weights[$vj],2));  
-            $r2=sqrt($d2);
-            $p2=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r2;
-         
-            $d3=abs(pow(($c->x-$x[$vk]),2)+pow(($c->y-$y[$vk]),2)-$c->r2-pow($this->weights[$vk],2));
-            $r3=sqrt($d3);
-            $p3=pow(($c->x-$x[$key]),2)+pow(($c->y-$y[$key]),2)-$c->r2-pow($this->weights[$key],2)-$r3;
-                    
-            //if ($c->r > EPSILON && $inside)
-            if ($p1<0 && $p2<0 && $p3<0)
+            // Use PowerCircumCircle
+            $w_vi_sq = pow($this->weights[$vi], 2);
+            $w_vj_sq = pow($this->weights[$vj], 2);
+            $w_vk_sq = pow($this->weights[$vk], 2);
+            $C_p = $this->PowerCircumCircle($x[$vi],$y[$vi],$w_vi_sq, $x[$vj],$y[$vj],$w_vj_sq, $x[$vk],$y[$vk],$w_vk_sq);
+
+            if ($C_p->colinear) { // If triangle is degenerate, skip.
+                // Potentially remove this degenerate triangle from $v if it was formed by supertriangle logic
+                // For now, just skip processing it for point insertion.
+                continue;
+            }
+
+            // Power Diagram "in-circle" test for point $key
+            $dx_pk_Cp = $x[$key] - $C_p->x;
+            $dy_pk_Cp = $y[$key] - $C_p->y;
+            $dist_sq_pk_Cp = $dx_pk_Cp*$dx_pk_Cp + $dy_pk_Cp*$dy_pk_Cp;
+            $w_key_sq = pow($this->weights[$key], 2);
+            $power_dist_pk = $dist_sq_pk_Cp - $w_key_sq;
+
+            if ($power_dist_pk < $C_p->r2 - EPSILON) // $C_p->r2 is R_p_sq
             {    
-  /*              $x[$vi]+=$this->weights[$vi];
-                $y[$vi]+=$this->weights[$vi];
-
-                $x[$vj]+=$this->weights[$vj];
-                $y[$vj]+=$this->weights[$vj];
-
-                $x[$vk]+=$this->weights[$vk];
-                $y[$vk]+=$this->weights[$vk];
- */
-//                $x[$key]+=$this;
-//                $y[$key]+=$this->weights[$key];
-
-//                $this->weights[$key]-=$this->weights[$key];
-
                 $edges[]=array($vi,$vj);
                 $edges[]=array($vj,$vk);
                 $edges[]=array($vk,$vi); 
@@ -941,10 +984,20 @@ class voronoi
         $this->midpoint = array();
                 
         foreach ($this->delaunay as $key => $arr)
-        {       
-             $this->cc[$key]=$this->CircumCircle($arr[0][0],$arr[0][1],
-                                                 $arr[0][2],$arr[0][3],
-                                                 $arr[1][2],$arr[1][3]);
+        {
+             // The vertices of the triangle are $this->indices[$key][0], [1], [2]
+             // These are indices into the original pointset (which was copied to local x,y,weights in make_delaunay)
+             // For make_voronoi, we need to access the point coordinates and weights.
+             // $this->pointset was the input to make_delaunay.
+             $idx0 = $this->indices[$key][0];
+             $idx1 = $this->indices[$key][1];
+             $idx2 = $this->indices[$key][2];
+
+             $p0 = $this->pointset[$idx0]; // array(x,y,w)
+             $p1 = $this->pointset[$idx1];
+             $p2 = $this->pointset[$idx2];
+
+             $this->cc[$key]=$this->PowerCircumCircle($p0[0],$p0[1],pow($p0[2],2), $p1[0],$p1[1],pow($p1[2],2), $p2[0],$p2[1],pow($p2[2],2));
         }    
 
           foreach ($this->indices as $key => $arr)
