@@ -9,8 +9,9 @@
 ***************************************************************/
  require_once("main.php");
  
- // Turn off all error reporting
-error_reporting(0);
+ // It's better to see errors during development
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // example 1
 $set=array();

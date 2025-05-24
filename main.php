@@ -14,8 +14,8 @@ define("SUPER_TRIANGLE",(float)1000000000);
   // circum circle
 class Circle
 {
-   var $x, $y, $r, $r2, $colinear;
-   function Circle($x, $y, $r, $r2, $colinear)
+   public $x, $y, $r, $r2, $colinear;
+   function __construct($x, $y, $r, $r2, $colinear)
    {
       $this->x = $x;
       $this->y = $y;
@@ -27,13 +27,13 @@ class Circle
 
 class visualize
 {
-   var $pObj;
-   var $path;
-   var $lib;
-   var $key;
-   var $p;
+   public $pObj;
+   public $path;
+   public $lib;
+   public $key;
+   public $p;
    
-   function visualize($pObj,$path,$lib,$key,$p)
+   function __construct($pObj,$path,$lib,$key,$p)
    {
       $this->pObj=$pObj;
       $this->path=$path;
@@ -221,13 +221,13 @@ class visualize
 
 class voronoi
 {
-   var $stageWidth = 400;
-   var $stageHeight = 400;
-   var $delaunay = array();
-   var $pointset = array();
-   var $indices = array();
-   var $cc = array();
-   var $midpoint = array();
+   public $stageWidth = 400;
+   public $stageHeight = 400;
+   public $delaunay = array();
+   public $pointset = array();
+   public $indices = array();
+   public $cc = array();
+   public $midpoint = array();
 
    function insidePoly($poly, $pointx, $pointy) 
     {
@@ -464,7 +464,7 @@ class voronoi
         foreach ($edges as $ekey=>$earr) 
         {
             list($vi,$vj)=array($edges[$ekey][0],$edges[$ekey][1]);
-            $angle=$this->dotproduct($x[$vi],$y[$vi],$x[$vj],$y[$vj],$pObj->stageWidth/2,$pObj->stageHeight/2);
+            $angle=$this->dotproduct($x[$vi],$y[$vi],$x[$vj],$y[$vj],$this->stageWidth/2,$this->stageHeight/2);
             $sort[]=$angle;
         }
         array_multisort($sort, SORT_ASC, SORT_NUMERIC, $edges);           
@@ -490,7 +490,7 @@ class voronoi
         foreach ($v as $vkey=>$varr) 
         {
             list($vi,$vj,$vk)=array($v[$vkey][0],$v[$vkey][1],$v[$vkey][2]);
-            $sort[]=$this->dotproduct($x[$vi],$y[$vi],$x[$vj],$y[$vj],$x[$vk],$y[$vk],$pObj->stageWidth/2,$pObj->stageHeight/2);
+            $sort[]=$this->dotproduct($x[$vi],$y[$vi],$x[$vj],$y[$vj],$x[$vk],$y[$vk],$this->stageWidth/2,$this->stageHeight/2);
         }
         array_multisort($sort, SORT_ASC, SORT_NUMERIC, $v);           
       }
@@ -1085,7 +1085,7 @@ class voronoi
 class Point {
     public $lat;
     public $long;
-    function Point($lat, $long) 
+    function __construct($lat, $long) 
     {
         $this->lat = $lat;
         $this->long = $long;
@@ -1232,8 +1232,8 @@ class nearestneighbor
         $i=$j=0;
         $inside = false;
         for ($i=0,$j=count($poly)-1;$i<count($poly);$j=$i++) 
-        {
-            if((($poly[$i]->y>$pointy)!=($poly[$j]->y>$pointy)) && ($pointx<($poly[$j]->x-$poly[$i]->x)*($pointy-$poly[$i]->y)/($poly[$j]->y-$poly[$i]->y)+$poly[$i]->x)) 
+        { // Assuming Point objects with 'lat' and 'long' properties, consistent with voronoi::insidePoly
+            if((($poly[$i]->lat>$pointy)!=($poly[$j]->lat>$pointy)) && ($pointx<($poly[$j]->long-$poly[$i]->long)*($pointy-$poly[$i]->lat)/($poly[$j]->lat-$poly[$i]->lat)+$poly[$i]->long))
             {
                 $inside = !$inside;   
             }
